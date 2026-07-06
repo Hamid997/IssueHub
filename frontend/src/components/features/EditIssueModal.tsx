@@ -6,11 +6,15 @@ interface EditIssueModalProps {
     issue: IssueResponse
     isOpen: boolean
     onClose: () => void
-    onSubmit: () => void
+    onSubmit: (data: {
+        title: string;
+        description: string;
+        priority: string;
+    }) => void;
 }
 
-export default function EditIssueModal({issue,isOpen,onClose,onSubmit}: EditIssueModalProps) { 
-    return(
+export default function EditIssueModal({ issue, isOpen, onClose, onSubmit }: EditIssueModalProps) {
+    return (
         <Modal
             title="Edit Issue"
             isOpen={isOpen}
@@ -19,7 +23,7 @@ export default function EditIssueModal({issue,isOpen,onClose,onSubmit}: EditIssu
 
             <IssueForm
                 issue={issue}
-                onSubmit={() => onSubmit()}
+                onSubmit={onSubmit}
             />
 
         </Modal>

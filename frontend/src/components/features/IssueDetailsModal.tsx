@@ -12,16 +12,20 @@ interface IssueDetailsModalProps {
 
 export default function IssueDetailsModal({issue,isOpen,onClose}: IssueDetailsModalProps) {
     return(
-        <Modal
-            title="Issue Details"
-            isOpen={isOpen}
-            onClose={onClose}
-        >
-            <Card>
-                <h2>{issue.title}</h2>
-                <p>{issue.description}</p>
-                <Badge>{issue.status}</Badge>
-            </Card>
-        </Modal>
+    <Modal
+      title="Issue Details"
+      isOpen={isOpen}
+      onClose={onClose}
+    >
+      <Card>
+        <h2>{issue.title}</h2>
+
+        <p>{issue.description}</p>
+
+        <Badge>{issue.status}</Badge>
+
+        <Badge>{issue.priority}</Badge>
+      </Card>
+    </Modal>
     )
 }

@@ -10,20 +10,29 @@
     },
     {
         "id": "c71df37d-6bb0-4723-bec8-aab5f97a5ba0",
-        "title": "stringstri",
-        "description": "string",
+        "title": "Integration FrontEnd and Backend",
+        "description": "Integration React and FastAPI",
         "status": "open",
-        "priority": "low",
+        "priority": "high",
         "date_added": "2026-07-04T17:00:35.864387",
         "date_completed": null
     },
     {
-        "id": "87dad0a0-4b0f-4e2a-b032-5874147b27f4",
-        "title": "stringstri",
-        "description": "string",
+        "id": "752c1403-6ac8-479f-88fc-d1f50fa466a7",
+        "title": "Login button bug",
+        "description": "Cannot login after clicking submit",
         "status": "open",
-        "priority": "low",
-        "date_added": "2026-07-04T17:00:45.619200",
+        "priority": "high",
+        "date_added": "2026-07-06T18:21:22.237424",
+        "date_completed": null
+    },
+    {
+        "id": "11683dd3-35cb-4b84-b219-ae16a8953e87",
+        "title": "SignUp button bug",
+        "description": "Cannot SignUp after clicking submit",
+        "status": "open",
+        "priority": "medium",
+        "date_added": "2026-07-06T18:40:07.343203",
         "date_completed": null
     }
 ]

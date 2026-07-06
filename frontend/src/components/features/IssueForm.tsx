@@ -28,6 +28,7 @@ export default function IssueForm({ issue, onSubmit }: IssueFormProps) {
         issue?.priority ?? "medium"
     );
 
+    
     function handleSubmit(
         e: React.FormEvent<HTMLFormElement>
     ) {
@@ -76,12 +77,11 @@ export default function IssueForm({ issue, onSubmit }: IssueFormProps) {
 
             </Select>
 
-            <Button>
+<Button>
 
-                Save
+    {issue ? "Update" : "Create"}
 
-            </Button>
-
+</Button>
         </form>
 
     );

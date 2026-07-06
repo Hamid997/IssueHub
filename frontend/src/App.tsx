@@ -9,75 +9,74 @@ import EditIssueModal from './components/features/EditIssueModal'
 import IssueDetailsModal from './components/features/IssueDetailsModal'
 
 import type { IssueResponse } from "./types/Issue";
+import useIssues from "./hooks/useIssues";
+import useIssueFilter from "./hooks/useIssueFilter";
+import useModal from "./hooks/useModal";
 
-function App() {
-  const [issues] = useState<IssueResponse[]>([
-    {
-      id: "1",
-      title: "Login Bug",
-      description: "Cannot login",
-      status: "open",
-      priority: "high",
-      date_added: new Date().toISOString(),
-      date_completed: null,
-    },
-    {
-      id: "2",
-      title: "Navbar UI",
-      description: "Improve navbar",
-      status: "closed",
-      priority: "medium",
-      date_added: new Date().toISOString(),
-      date_completed: new Date().toISOString(),
-    },
-  ]);
+export default function App() {
+  const { issues, createIssue, updateIssue, deleteIssue } = useIssues();
+  const [selectedIssue, setSelectedIssue] = useState<IssueResponse | null>(issues[0]);
 
-  const [selectedIssue] = useState<IssueResponse | null>(issues[0]);
+  const createModal = useModal();
+  const editModal = useModal();
+  const detailsModal = useModal();
 
-  const [isCreateOpen, setIsCreateOpen] = useState(false);
-
-  const [isEditOpen, setIsEditOpen] = useState(false);
-
-  const [isDetailsOpen, setIsDetailOpen] = useState(false);
-
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const filteredIssues = useIssueFilter({ issues, search, status: statusFilter });
 
   return (
     <>
       <Navbar />
 
       <Toolbar
-        onCreate={() => setIsCreateOpen(true)}
+        onCreate={createModal.open}
+        search={search}
+        onSearchChange={setSearch}
+        status={statusFilter}
+        onStatusChange={setStatusFilter}
       />
 
-      <IssueTable issues={issues} />
+      <IssueTable issues={filteredIssues}
+        onSelect={(issue) => {
+          setSelectedIssue(issue);
+          detailsModal.open();
+        }}
+        onEdit={(issue) => {
+          setSelectedIssue(issue);
+          editModal.open();
+        }}
+        onDelete={deleteIssue}
+      />
 
       <CreateIssueModal
-        isOpen={isCreateOpen}
-        onClose={() => setIsCreateOpen(false)}
-        onSubmit={(data) => { 
-              console.log(data);
-    setIsCreateOpen(false);
+        isOpen={createModal.isOpen}
+        onClose={createModal.close}
+        onSubmit={async (data) => {
+          await createIssue(data);
+          createModal.close();
         }}
       />
 
       {selectedIssue && (
         <IssueDetailsModal
           issue={selectedIssue}
-          isOpen={isDetailsOpen}
-          onClose={() => setIsDetailOpen(false)}
-        />
+          isOpen={detailsModal.isOpen}
+          onClose={detailsModal.close} />
       )}
 
       {selectedIssue && (
         <EditIssueModal
           issue={selectedIssue}
-          isOpen={isEditOpen}
-          onClose={() => setIsEditOpen(false)}
-          onSubmit={() => { }}
-        />
+          isOpen={editModal.isOpen}
+          onClose={editModal.close} 
+          onSubmit={async (data) => {
+            if (selectedIssue) {
+              await updateIssue(selectedIssue.id, data);
+            }
+            editModal.close();
+          }} />
       )}
     </>
   )
 }
-
-export default App
