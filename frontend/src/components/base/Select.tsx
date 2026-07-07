@@ -12,6 +12,7 @@ export default function Select({children, value, disabled, onChange}: SelectProp
             value={value}
             disabled={disabled}
             onChange={onChange}
+            className="select"
         >
             {children}
         </select>

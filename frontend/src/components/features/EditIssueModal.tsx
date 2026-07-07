@@ -10,10 +10,13 @@ interface EditIssueModalProps {
         title: string;
         description: string;
         priority: string;
+        status?: string;
     }) => void;
+    loading: boolean;
+    error: string;
 }
 
-export default function EditIssueModal({ issue, isOpen, onClose, onSubmit }: EditIssueModalProps) {
+export default function EditIssueModal({ loading, error, issue, isOpen, onClose, onSubmit }: EditIssueModalProps) {
     return (
         <Modal
             title="Edit Issue"
@@ -23,7 +26,11 @@ export default function EditIssueModal({ issue, isOpen, onClose, onSubmit }: Edi
 
             <IssueForm
                 issue={issue}
+                showStatus
+                loading={loading}
+                error={error}
                 onSubmit={onSubmit}
+                onCancel={onClose}
             />
 
         </Modal>

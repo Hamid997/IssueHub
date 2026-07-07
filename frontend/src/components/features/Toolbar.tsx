@@ -21,25 +21,27 @@ export default function Toolbar({
 }: ToolbarProps) {
   return (
     <div className="toolbar">
-      <Button onClick={onCreate}>
+      <Button onClick={onCreate} >
         Add Issue
       </Button>
 
-      <Input
-        value={search}
-        placeholder="Search..."
-        onChange={(e) => onSearchChange(e.target.value)}
-      />
+      <div className="toolbar-actions">
+        <Input
+          value={search}
+          placeholder="Search..."
+          onChange={(e) => onSearchChange(e.target.value)}
+        />
 
-      <Select
-        value={status}
-        onChange={(e) => onStatusChange(e.target.value)}
-      >
-        <option value="">All Status</option>
-        <option value="open">Open</option>
-        <option value="in_progress">In Progress</option>
-        <option value="closed">Closed</option>
-      </Select>
+        <Select
+          value={status}
+          onChange={(e) => onStatusChange(e.target.value)}
+        >
+          <option value="">All Status</option>
+          <option value="open">Open</option>
+          <option value="in_progress">In Progress</option>
+          <option value="closed">Closed</option>
+        </Select>
+      </div>
     </div>
   );
 }

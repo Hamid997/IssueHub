@@ -1,15 +1,14 @@
 interface ButtonProps {
-    children: React.ReactNode
-    variant?: "primary" | "secondary" | "danger" | "ghost"
-    size?: "sm" | "md" | "lg"
-    disabled?: boolean
-    onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
+    children: React.ReactNode;
+    disabled?: boolean;
+    variant?: "primary" | "danger" | "secondary";
+    onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export default function Button({children, variant, size, disabled, onClick}: ButtonProps) {
+export default function Button({ children, variant, disabled, onClick }: ButtonProps) {
     return (
         <button
-            className={`btn ${variant} ${size}`}
+            className={`button button-${variant ?? "primary"}`}
             disabled={disabled}
             onClick={onClick}
         >

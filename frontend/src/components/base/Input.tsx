@@ -12,7 +12,7 @@ export default function Input({ value, onChange, placeholder, type }: InputProps
       value={value} 
       onChange={onChange} 
       placeholder={placeholder} 
-      className="custom-input-styles"
+      className="input"
     />
   )
 };

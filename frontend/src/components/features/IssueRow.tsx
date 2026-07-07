@@ -1,48 +1,68 @@
 import type { IssueResponse } from "../../types/Issue";
-import Button from "../base/Button";
+import Badge from "../base/Badge";
 
 interface IssueRowProps {
     issue: IssueResponse;
     onSelect: (issue: IssueResponse) => void;
-    onEdit: (issue: IssueResponse) => void;
-    onDelete: (id: string) => void;
-
 }
 
 export default function IssueRow({
     issue,
     onSelect,
-    onEdit,
-    onDelete,
 }: IssueRowProps) {
+
     return (
-        <div
-            className="issue-row"
-            onClick={() => onSelect(issue)}
-        >
-            <h3>{issue.title}</h3>
-            <p>{issue.description}</p>
-            <span>{issue.status}</span>
-            <span>{issue.priority}</span>
-            <Button
-                onClick={(e) => {
-                    e.stopPropagation();
-                    onEdit(issue);
-                }}
-            >
-                Edit
-            </Button>
+        <tr className="issue-row">
 
-            <Button
-                variant="danger"
-                onClick={(e) => {
-                    e.stopPropagation();
-                    onDelete(issue.id);
-                }}
-            >
-                Delete
-            </Button>
+            <td className="issue-title">
 
-        </div>
+                <button
+                    className="issue-link"
+                    onClick={() => onSelect(issue)}
+                >
+                    {issue.title}
+                </button>
+
+            </td>
+
+            <td className="issue-description">
+
+                {issue.description}
+
+            </td>
+
+            <td>
+
+                <Badge variant={issue.status}>
+                    {issue.status}
+                </Badge>
+
+            </td>
+
+            <td>
+
+                <Badge variant={issue.priority}>
+                    {issue.priority}
+                </Badge>
+
+            </td>
+
+            <td>
+
+                {issue.date_added
+                    ? new Date(issue.date_added).toLocaleDateString()
+                    : "-"}
+
+            </td>
+
+            <td>
+
+                {issue.date_completed
+                    ? new Date(issue.date_completed).toLocaleDateString()
+                    : "-"}
+
+            </td>
+
+        </tr>
     );
 }

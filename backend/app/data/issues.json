@@ -1,17 +1,8 @@
 [
     {
-        "id": "59592978-3ca0-429d-9205-85db495ea91a",
-        "title": "stringstri",
-        "description": "string",
-        "status": "open",
-        "priority": "low",
-        "date_added": "2026-07-04T17:00:30.874520",
-        "date_completed": null
-    },
-    {
         "id": "c71df37d-6bb0-4723-bec8-aab5f97a5ba0",
         "title": "Integration FrontEnd and Backend",
-        "description": "Integration React and FastAPI",
+        "description": "Integration React and FastAPI Integration React and FastAPI Integration React and FastAPI Integration React and FastAPI Integration React and FastAPI Integration React and FastAPI Integration React and FastAPI",
         "status": "open",
         "priority": "high",
         "date_added": "2026-07-04T17:00:35.864387",
@@ -30,9 +21,18 @@
         "id": "11683dd3-35cb-4b84-b219-ae16a8953e87",
         "title": "SignUp button bug",
         "description": "Cannot SignUp after clicking submit",
-        "status": "open",
-        "priority": "medium",
+        "status": "closed",
+        "priority": "low",
         "date_added": "2026-07-06T18:40:07.343203",
+        "date_completed": "2026-07-07T15:33:16.638072"
+    },
+    {
+        "id": "efe43c29-f957-4e51-8a70-523546e84fb5",
+        "title": "Add Styling CSS",
+        "description": "Styling css for project",
+        "status": "in_progress",
+        "priority": "medium",
+        "date_added": "2026-07-07T14:28:53.553744",
         "date_completed": null
     }
 ]

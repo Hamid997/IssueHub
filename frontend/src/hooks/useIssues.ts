@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+
 import type { IssueResponse } from "../types/Issue";
 import issueService from "../services/issueService";
+import { getErrorMessage } from "../utils/errorHandler";
 
 interface IssueData {
     title: string;
@@ -11,42 +13,86 @@ interface IssueData {
 export default function useIssues() {
     const [issues, setIssues] = useState<IssueResponse[]>([]);
 
+    const [loading, setLoading] = useState(false);
+
+    const [error, setError] = useState("");
+
     useEffect(() => {
         async function loadIssues() {
-            const data = await issueService.getAll();
-            setIssues(data);
+            try {
+                setLoading(true);
+                setError("");
+
+                const data = await issueService.getAll();
+                setIssues(data);
+            } catch (error) {
+                setError(getErrorMessage(error));
+            } finally {
+                setLoading(false);
+            }
         }
 
         loadIssues();
     }, []);
 
     async function createIssue(data: IssueData) {
-        const createdIssue = await issueService.create(data);
+        try {
+            setLoading(true);
+            setError("");
 
+            const createdIssue = await issueService.create(data);
 
-        setIssues((prev) => [...prev, createdIssue]);
+            setIssues((prev) => [...prev, createdIssue]);
+        } catch (error) {
+            setError(getErrorMessage(error));
+            throw error;
+        } finally {
+            setLoading(false);
+        }
     }
 
     async function deleteIssue(id: string) {
-        await issueService.delete(id);
+        try {
+            setLoading(true);
+            setError("");
 
-        setIssues((prev) =>
-            prev.filter((issue) => issue.id !== id)
-        );
+            await issueService.delete(id);
+
+            setIssues((prev) =>
+                prev.filter((issue) => issue.id !== id)
+            );
+        } catch (error) {
+            setError(getErrorMessage(error));
+            throw error;
+        } finally {
+            setLoading(false);
+        }
     }
 
     async function updateIssue(id: string, data: IssueData) {
-        const updated = await issueService.update(id, data);
+        try {
+            setLoading(true);
+            setError("");
 
-        setIssues((prev) =>
-            prev.map((issue) =>
-                issue.id === id ? updated : issue
-            )
-        );
+            const updated = await issueService.update(id, data);
+
+            setIssues((prev) =>
+                prev.map((issue) =>
+                    issue.id === id ? updated : issue
+                )
+            );
+        } catch (error) {
+            setError(getErrorMessage(error));
+            throw error;
+        } finally {
+            setLoading(false);
+        }
     }
 
     return {
         issues,
+        loading,
+        error,
         createIssue,
         updateIssue,
         deleteIssue,

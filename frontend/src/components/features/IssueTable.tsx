@@ -4,28 +4,32 @@ import IssueRow from "./IssueRow";
 interface IssueTableProps {
     issues: IssueResponse[];
     onSelect: (issue: IssueResponse) => void;
-    onEdit: (issue: IssueResponse) => void;
-    onDelete: (id: string) => void;
 }
 
 export default function IssueTable({
     issues,
     onSelect,
-    onEdit,
-    onDelete,
 }: IssueTableProps) {
     return (
-        <div>
+        <div className="issue-table">
+
+            <div className="issue-table-head">
+                <span>Issue</span>
+                <span>Description</span>
+                <span>Status</span>
+                <span>Priority</span>
+                <span>Date Added</span>
+                <span>Date Completed</span>
+            </div>
+
             {issues.map((issue) => (
                 <IssueRow
                     key={issue.id}
                     issue={issue}
                     onSelect={onSelect}
-                    onEdit={onEdit}
-                    onDelete={onDelete}
-
                 />
             ))}
+
         </div>
     );
 }

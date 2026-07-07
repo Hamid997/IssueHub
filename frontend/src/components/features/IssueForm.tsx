@@ -8,15 +8,27 @@ import type { IssueResponse } from "../../types/Issue";
 
 interface IssueFormProps {
     issue?: IssueResponse;
+
+    showStatus?: boolean;
+
+    loading?: boolean;
+
+    error?: string;
+
     onSubmit?: (data: {
         title: string;
         description: string;
         priority: string;
+        status?: string;
     }) => void;
+
+    onCancel?: () => void;
 }
 
-
-export default function IssueForm({ issue, onSubmit }: IssueFormProps) {
+export default function IssueForm({
+    loading, error, showStatus,
+    issue, onSubmit, onCancel
+}: IssueFormProps) {
 
     const [title, setTitle] = useState(issue?.title ?? "");
 
@@ -28,7 +40,10 @@ export default function IssueForm({ issue, onSubmit }: IssueFormProps) {
         issue?.priority ?? "medium"
     );
 
-    
+    const [status, setStatus] = useState(
+        issue?.status ?? "open"
+    );
+
     function handleSubmit(
         e: React.FormEvent<HTMLFormElement>
     ) {
@@ -39,6 +54,7 @@ export default function IssueForm({ issue, onSubmit }: IssueFormProps) {
             title,
             description,
             priority,
+            status,
         });
 
     }
@@ -61,6 +77,29 @@ export default function IssueForm({ issue, onSubmit }: IssueFormProps) {
                 }
             />
 
+            {showStatus && (
+
+                <Select
+                    value={status}
+                    onChange={(e) =>
+                        setStatus(e.target.value as "open" | "in-progress" | "closed")
+                    }
+                >
+                    <option value="open">
+                        Open
+                    </option>
+
+                    <option value="in_progress">
+                        In Progress
+                    </option>
+
+                    <option value="closed">
+                        Closed
+                    </option>
+
+                </Select>
+
+            )}
             <Select
                 value={priority}
                 onChange={(e) =>
@@ -77,11 +116,32 @@ export default function IssueForm({ issue, onSubmit }: IssueFormProps) {
 
             </Select>
 
-<Button>
+            <div className="form-actions">
 
-    {issue ? "Update" : "Create"}
+                <Button
+                    variant="secondary"
+                    onClick={onCancel}
+                >
+                    Cancel
+                </Button>
 
-</Button>
+                <Button disabled={loading}>
+
+                    {loading
+                        ? "Saving..."
+                        : issue
+                            ? "Update"
+                            : "Create"}
+
+                </Button>
+
+            </div>
+
+            {error &&
+                <p className="error">
+                    {error}
+                </p>
+            }
         </form>
 
     );

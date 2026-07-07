@@ -1,7 +1,6 @@
-export default function Navbar(){
-    return(
+export default function Navbar() {
+    return (
         <header className="navbar">
-            <h1>IssueHub</h1>
-        </header>
-    )
+            <strong>IssueHub</strong>
+        </header>)
 }
