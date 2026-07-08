@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import Button from "../base/Button";
 import Input from "../base/Input";
+import Textarea from "../base/Textarea";
 import Select from "../base/Select";
 
 import type { IssueResponse } from "../../types/Issue";
@@ -13,7 +14,7 @@ interface IssueFormProps {
 
     loading?: boolean;
 
-    error?: string;
+    // error?: string;
 
     onSubmit?: (data: {
         title: string;
@@ -26,7 +27,7 @@ interface IssueFormProps {
 }
 
 export default function IssueForm({
-    loading, error, showStatus,
+    loading, showStatus,
     issue, onSubmit, onCancel
 }: IssueFormProps) {
 
@@ -59,89 +60,102 @@ export default function IssueForm({
 
     }
 
+
     return (
 
         <form onSubmit={handleSubmit}>
 
+<p>Title</p>
             <Input
                 value={title}
                 placeholder="Title"
                 onChange={(e) => setTitle(e.target.value)}
             />
 
-            <Input
+<p>Description</p>
+            <Textarea
                 value={description}
-                placeholder="Description"
+                placeholder="Describe the issue..."
                 onChange={(e) =>
                     setDescription(e.target.value)
                 }
             />
 
-            {showStatus && (
+            <div className="form-row">
 
-                <Select
-                    value={status}
-                    onChange={(e) =>
-                        setStatus(e.target.value as "open" | "in-progress" | "closed")
-                    }
-                >
-                    <option value="open">
-                        Open
-                    </option>
+                <div>
+                    <p>Priority</p>
+                    <Select
+                        value={priority}
+                        onChange={(e) =>
+                            setPriority(e.target.value as "high" | "medium" | "low")
+                        }
+                    >
+                        <option value="high">High</option>
 
-                    <option value="in_progress">
-                        In Progress
-                    </option>
+                        <option value="medium">
+                            Medium
+                        </option>
 
-                    <option value="closed">
-                        Closed
-                    </option>
+                        <option value="low">Low</option>
 
-                </Select>
+                    </Select>
+                </div>
 
-            )}
-            <Select
-                value={priority}
-                onChange={(e) =>
-                    setPriority(e.target.value as "high" | "medium" | "low")
-                }
-            >
-                <option value="high">High</option>
+                {showStatus && (
+                    <div>
+                        <p>Status</p>
+                        <Select
+                            value={status}
+                            onChange={(e) =>
+                                setStatus(e.target.value as "open" | "in_progress" | "closed")
+                            }
+                        >
+                            <option value="open">
+                                Open
+                            </option>
 
-                <option value="medium">
-                    Medium
-                </option>
+                            <option value="in_progress">
+                                In progress
+                            </option>
 
-                <option value="low">Low</option>
+                            <option value="closed">
+                                Closed
+                            </option>
 
-            </Select>
+                        </Select>
+                    </div>
+                )}
+
+            </div>
 
             <div className="form-actions">
 
                 <Button
+                    type="button"
                     variant="secondary"
                     onClick={onCancel}
                 >
                     Cancel
                 </Button>
 
-                <Button disabled={loading}>
+                <Button type="submit" disabled={loading}>
 
                     {loading
                         ? "Saving..."
                         : issue
                             ? "Update"
-                            : "Create"}
+                            : "Add issue"}
 
                 </Button>
 
             </div>
 
-            {error &&
+            {/* {error &&
                 <p className="error">
                     {error}
                 </p>
-            }
+            } */}
         </form>
 
     );

@@ -21,14 +21,14 @@ export default function Toolbar({
 }: ToolbarProps) {
   return (
     <div className="toolbar">
-      <Button onClick={onCreate} >
-        Add Issue
+      <Button type="button" onClick={onCreate} >
+        + Add issue
       </Button>
 
       <div className="toolbar-actions">
         <Input
           value={search}
-          placeholder="Search..."
+          placeholder="Search by name"
           onChange={(e) => onSearchChange(e.target.value)}
         />
 

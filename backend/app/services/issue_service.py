@@ -4,7 +4,7 @@ import uuid
 from ..storage import load_issues, save_issues
 from ..exceptions import issue_not_found
 from ..models import PriorityEnum, StatusEnum
-from ..schemas import IssueCreate, IssueResponse, IssueUpdate
+from ..schemas import IssueCreate, IssueListResponse, IssueResponse, IssueUpdate
 
 def create_issue(issue: IssueCreate) -> IssueResponse:
     issues = load_issues()
@@ -23,7 +23,7 @@ def create_issue(issue: IssueCreate) -> IssueResponse:
     save_issues(issues)
     return new_issue
 
-def read_issues(status: StatusEnum | None = None, priority: PriorityEnum | None = None, skip: int = 0, limit: int = 10,) -> list[IssueResponse]:
+def read_issues(status: StatusEnum | None = None, priority: PriorityEnum | None = None, skip: int = 0, limit: int = 10,) -> IssueListResponse:
     issues = load_issues()
     filtered_issues = issues
     if status is not None:
@@ -38,7 +38,19 @@ def read_issues(status: StatusEnum | None = None, priority: PriorityEnum | None 
             for issue in filtered_issues
             if issue.priority == priority
         ]
-    return filtered_issues[skip: skip + limit]
+
+    total = len(filtered_issues)
+
+    items = filtered_issues[
+        skip: skip + limit
+    ]
+
+    return {
+        "items": items,
+        "total": total,
+        "skip": skip,
+        "limit": limit,
+    }
 
 def read_issue(id: str) -> IssueResponse:
     issues = load_issues()
@@ -52,12 +64,16 @@ def update_issue(id: str, updated_issue: IssueUpdate) -> IssueResponse:
     for index, issue in enumerate(issues):
 
         if issue.id == id:
-            if (updated_issue.status == StatusEnum.closed and issue.status != StatusEnum.closed):
-                date_completed = datetime.datetime.now()
-            elif updated_issue.status == StatusEnum.open:
-                date_completed = None
+            new_status = updated_issue.status if updated_issue.status is not None else issue.status
+
+            if new_status == StatusEnum.closed:
+                date_completed = (
+                    issue.date_completed
+                    if issue.status == StatusEnum.closed
+                    else datetime.datetime.now()
+                )
             else:
-                date_completed = issue.date_completed
+                date_completed = None
 
             update_issue_response = IssueResponse(
                 id=issue.id,

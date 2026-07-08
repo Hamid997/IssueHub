@@ -21,3 +21,9 @@ class IssueResponse(BaseModel):
     priority: PriorityEnum
     date_added: datetime.datetime
     date_completed: datetime.datetime | None = None
+
+class IssueListResponse(BaseModel):
+    items: list[IssueResponse]
+    total: int
+    skip: int
+    limit: int

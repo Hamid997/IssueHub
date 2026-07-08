@@ -13,10 +13,10 @@ interface CreateIssueModalProps {
     onClose: () => void
     onSubmit: (data: FormData) => void;
     loading: boolean;
-    error: string;
+    // error: string;
 }
 
-export default function CreateIssueModal({ loading, error, isOpen, onClose, onSubmit }: CreateIssueModalProps) {
+export default function CreateIssueModal({ loading, isOpen, onClose, onSubmit }: CreateIssueModalProps) {
     return (
         <Modal
             title="Create Issue"
@@ -25,7 +25,7 @@ export default function CreateIssueModal({ loading, error, isOpen, onClose, onSu
         >
             <IssueForm
                 loading={loading}
-                error={error}
+                // error={error}
                 onSubmit={onSubmit}
                 onCancel={onClose}
             />

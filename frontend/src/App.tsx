@@ -4,11 +4,13 @@ import { useState } from "react";
 import Navbar from "./components/features/Navbar";
 import Toolbar from "./components/features/Toolbar";
 import IssueTable from "./components/features/IssueTable";
-
+import EmptyState from "./components/features/EmptyState";
 import CreateIssueModal from "./components/features/CreateIssueModal";
 import EditIssueModal from "./components/features/EditIssueModal";
 import IssueDetailsModal from "./components/features/IssueDetailsModal";
 import ConfirmDialog from "./components/features/ConfirmDialog";
+import IssueTableSkeleton from "./components/features/IssueTableSkeleton";
+import Pagination from "./components/features/Pagination";
 
 import useIssues from "./hooks/useIssues";
 import useIssueFilter from "./hooks/useIssueFilter";
@@ -17,29 +19,26 @@ import useModal from "./hooks/useModal";
 import type { IssueResponse } from "./types/Issue";
 
 export default function App() {
-  const {
-    issues,
+  const { issues,
+
+    total,
+    skip,
+    limit,
+
+    nextPage,
+    previousPage,
+
     loading,
-    error,
+    initialized,
+
     createIssue,
     updateIssue,
     deleteIssue,
   } = useIssues();
-
-  const [selectedIssue, setSelectedIssue] =
-    useState<IssueResponse | null>(null);
-
+  const [selectedIssue, setSelectedIssue] = useState<IssueResponse | null>(null);
   const [search, setSearch] = useState("");
-
-  const [statusFilter, setStatusFilter] =
-    useState("");
-
-  const filteredIssues = useIssueFilter({
-    issues,
-    search,
-    status: statusFilter,
-  });
-
+  const [statusFilter, setStatusFilter] = useState("");
+  const filteredIssues = useIssueFilter({ issues, search, status: statusFilter });
   const createModal = useModal();
   const editModal = useModal();
   const detailsModal = useModal();
@@ -67,11 +66,30 @@ export default function App() {
             onStatusChange={setStatusFilter}
           />
 
-          <IssueTable
-            issues={filteredIssues}
-            onSelect={handleSelectIssue}
-          />
+          {loading ? (
+            <IssueTableSkeleton />
+          ) : !initialized ? null : filteredIssues.length === 0 ? (
+            <EmptyState />
+          ) : (
+            <IssueTable
+              issues={filteredIssues}
+              onSelect={handleSelectIssue}
+            />
+          )}
 
+          <Pagination
+
+            total={total}
+
+            skip={skip}
+
+            limit={limit}
+
+            onPrevious={previousPage}
+
+            onNext={nextPage}
+
+          />
         </div>
 
       </main>
@@ -84,7 +102,7 @@ export default function App() {
         isOpen={createModal.isOpen}
         onClose={createModal.close}
         loading={loading}
-        error={error}
+        // error={error}
         onSubmit={async (data) => {
           await createIssue(data);
           createModal.close();
@@ -123,7 +141,7 @@ export default function App() {
           isOpen={editModal.isOpen}
           onClose={editModal.close}
           loading={loading}
-          error={error}
+          // error={error}
           onSubmit={async (data) => {
             await updateIssue(
               selectedIssue.id,

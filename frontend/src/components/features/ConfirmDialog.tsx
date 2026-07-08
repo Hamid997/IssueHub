@@ -26,6 +26,7 @@ export default function ConfirmDialog({
 
             <div className="dialog-actions">
                 <Button
+                    type="button"
                     variant="secondary"
                     onClick={onCancel}
                 >
@@ -33,6 +34,7 @@ export default function ConfirmDialog({
                 </Button>
 
                 <Button
+                    type="button"
                     variant="danger"
                     onClick={onConfirm}
                 >

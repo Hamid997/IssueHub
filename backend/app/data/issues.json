@@ -24,7 +24,7 @@
         "status": "closed",
         "priority": "low",
         "date_added": "2026-07-06T18:40:07.343203",
-        "date_completed": "2026-07-07T15:33:16.638072"
+        "date_completed": "2026-07-08T21:35:31.822235"
     },
     {
         "id": "efe43c29-f957-4e51-8a70-523546e84fb5",
@@ -33,6 +33,69 @@
         "status": "in_progress",
         "priority": "medium",
         "date_added": "2026-07-07T14:28:53.553744",
+        "date_completed": null
+    },
+    {
+        "id": "31e418c3-b021-473e-8346-a3842bd141df",
+        "title": "test test test",
+        "description": "test test test test test test test test test test test test ",
+        "status": "open",
+        "priority": "medium",
+        "date_added": "2026-07-08T19:24:00.938530",
+        "date_completed": null
+    },
+    {
+        "id": "4c8daacf-3839-4f17-b570-a1824cde704c",
+        "title": "test test test",
+        "description": "test test test test test test test test test test test test ",
+        "status": "open",
+        "priority": "medium",
+        "date_added": "2026-07-08T19:24:13.071635",
+        "date_completed": null
+    },
+    {
+        "id": "7580c407-a8cf-43b2-87bb-2aba98d31a36",
+        "title": "test test test",
+        "description": "test test test test test test test test test ",
+        "status": "open",
+        "priority": "medium",
+        "date_added": "2026-07-08T19:24:21.864991",
+        "date_completed": null
+    },
+    {
+        "id": "4592a9a5-ac44-46b3-b50c-28d2c62ac761",
+        "title": "test test test",
+        "description": "test test test test test test test test test test test test ",
+        "status": "open",
+        "priority": "medium",
+        "date_added": "2026-07-08T19:24:32.270938",
+        "date_completed": null
+    },
+    {
+        "id": "2cc292f2-4992-4723-b9df-3eb16cbca3d1",
+        "title": "test test test",
+        "description": "test test test test test test test test test ",
+        "status": "open",
+        "priority": "medium",
+        "date_added": "2026-07-08T19:24:40.598026",
+        "date_completed": null
+    },
+    {
+        "id": "c58826cc-1b68-47b9-8c51-28b8473002c5",
+        "title": "test test test test test test ",
+        "description": "test test test test test test test test test test test test ",
+        "status": "in_progress",
+        "priority": "high",
+        "date_added": "2026-07-08T19:24:56.085389",
+        "date_completed": null
+    },
+    {
+        "id": "819cfb28-ff17-4b97-93ab-a5cea5556520",
+        "title": "test test test ",
+        "description": "test test test test test test test test test test test test test test test ",
+        "status": "open",
+        "priority": "medium",
+        "date_added": "2026-07-08T19:25:07.548744",
         "date_completed": null
     }
 ]

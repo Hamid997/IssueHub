@@ -1,7 +1,9 @@
+import { CalendarDays, CircleCheck } from "lucide-react";
 import Modal from "../base/Modal";
 import Card from "../base/Card";
 import Badge from "../base/Badge";
 
+import { formatDate } from "../../utils/formatDate";
 import type { IssueResponse } from "../../types/Issue"
 import Button from "../base/Button";
 
@@ -11,6 +13,11 @@ interface IssueDetailsModalProps {
   onClose: () => void
   onEdit: (issue: IssueResponse) => void;
   onDelete: (id: string) => void;
+}
+
+function formatLabel(value: string) {
+  const spaced = value.replace(/[-_]/g, " ");
+  return spaced.charAt(0).toUpperCase() + spaced.slice(1);
 }
 
 export default function IssueDetailsModal({
@@ -27,8 +34,8 @@ export default function IssueDetailsModal({
           <h2>{issue.title}</h2>
         </div>
         <div className="details-tags">
-          <Badge variant={issue.status}>{issue.status}</Badge>
-          <Badge variant={issue.priority}>{issue.priority}</Badge>
+          <Badge variant={issue.status}>{formatLabel(issue.status)}</Badge>
+          <Badge variant={issue.priority}>{formatLabel(issue.priority)} priority</Badge>
         </div>
         <p className="details-description">
           {issue.description}
@@ -36,21 +43,28 @@ export default function IssueDetailsModal({
         <hr className="details-divider" />
         <div className="details-info">
           <div className="details-row">
-            <span>Date Added</span>
+            <div className="details-label">
+              <CalendarDays size={18} />
+              <span>Date Added</span>
+            </div>
             <span>
-              {new Date(issue.date_added).toLocaleDateString()}
+              {formatDate(issue.date_added)}
             </span>
           </div>
           <div className="details-row">
-            <span>Date Completed</span>
+            <div className="details-label">
+              <CircleCheck size={18} />
+              <span>Date Completed</span>
+            </div>
             <span>
-              {issue.date_completed ? new Date(issue.date_completed).toLocaleDateString() : "-"}
+              {formatDate(issue.date_completed)}
             </span>
           </div>
         </div>
         <div className="details-actions">
 
           <Button
+            type="button"
             variant="danger"
             onClick={(e) => {
               e.stopPropagation();
@@ -61,6 +75,7 @@ export default function IssueDetailsModal({
           </Button>
 
           <Button
+            type="button"
             variant="primary"
             onClick={(e) => {
               e.stopPropagation();

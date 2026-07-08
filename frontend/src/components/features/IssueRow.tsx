@@ -1,9 +1,15 @@
 import type { IssueResponse } from "../../types/Issue";
 import Badge from "../base/Badge";
+import { formatDate } from "../../utils/formatDate";
 
 interface IssueRowProps {
     issue: IssueResponse;
     onSelect: (issue: IssueResponse) => void;
+}
+
+function formatLabel(value: string) {
+    const spaced = value.replace(/[-_]/g, " ");
+    return spaced.charAt(0).toUpperCase() + spaced.slice(1);
 }
 
 export default function IssueRow({
@@ -12,57 +18,48 @@ export default function IssueRow({
 }: IssueRowProps) {
 
     return (
-        <tr className="issue-row">
+        <div className="issue-row">
 
-            <td className="issue-title">
+            <div className="issue-cell issue-title">
 
                 <button
                     className="issue-link"
-                    onClick={() => onSelect(issue)}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onSelect(issue);
+                    }}
                 >
                     {issue.title}
                 </button>
 
-            </td>
+            </div>
 
-            <td className="issue-description">
+            <div className="issue-cell issue-description">
 
                 {issue.description}
 
-            </td>
+            </div>
 
-            <td>
-
+            <div className="issue-cell">
                 <Badge variant={issue.status}>
-                    {issue.status}
+                    {formatLabel(issue.status)}
                 </Badge>
+            </div>
 
-            </td>
-
-            <td>
-
+            <div className={`issue-cell priority-text priority-${issue.priority}`}>
                 <Badge variant={issue.priority}>
-                    {issue.priority}
+                    {formatLabel(issue.priority)}
                 </Badge>
+            </div>
 
-            </td>
+            <div className="issue-cell issue-date">
+                {formatDate(issue.date_added)}
+            </div>
 
-            <td>
+            <div className="issue-cell issue-date">
+                {formatDate(issue.date_completed)}
+            </div>
 
-                {issue.date_added
-                    ? new Date(issue.date_added).toLocaleDateString()
-                    : "-"}
-
-            </td>
-
-            <td>
-
-                {issue.date_completed
-                    ? new Date(issue.date_completed).toLocaleDateString()
-                    : "-"}
-
-            </td>
-
-        </tr>
+        </div>
     );
 }

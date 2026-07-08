@@ -1,5 +1,5 @@
 import api from "../api/api";
-import type { IssueResponse } from "../types/Issue";
+import type { IssueListResponse } from "../types/Issue";
 
 interface IssueData {
     title: string;
@@ -8,8 +8,8 @@ interface IssueData {
 }
 
 const issueService = {
-    async getAll(): Promise<IssueResponse[]> {
-        const response = await api.get("issues/");
+    async getAll(skip = 0, limit = 10): Promise<IssueListResponse> {
+        const response = await api.get("issues/", { params: { skip, limit } });
         return response.data;
     },
     async create(data: IssueData) {

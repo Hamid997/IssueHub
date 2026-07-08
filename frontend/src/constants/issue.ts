@@ -1,6 +1,6 @@
 export const ISSUE_STATUS = [
     "open",
-    "in-progress",
+    "in_progress",
     "closed",
 ] as const;
 
