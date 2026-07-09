@@ -2,13 +2,13 @@ import { Navigate } from "react-router-dom";
 
 import useAuthContext from "../hooks/useAuthContext";
 
-interface Props {
+interface ProtectedRouteProps {
     children: React.ReactNode;
 }
 
 export default function ProtectedRoute({
     children,
-}: Props) {
+}: ProtectedRouteProps) {
 
     const { isAuthenticated } =
         useAuthContext();
