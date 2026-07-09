@@ -1,102 +1,125 @@
-import datetime
 import uuid
+import datetime
+from sqlalchemy.orm import Session
 
-from ..storage import load_issues, save_issues
 from ..exceptions import issue_not_found
-from ..models import PriorityEnum, StatusEnum
+from ..enums import PriorityEnum, StatusEnum
+from ..models import Issue
 from ..schemas import IssueCreate, IssueListResponse, IssueResponse, IssueUpdate
 
-def create_issue(issue: IssueCreate) -> IssueResponse:
-    issues = load_issues()
-    u_id = uuid.uuid4()
-    date = datetime.datetime.now()
-    new_issue = IssueResponse(
-        id=str(u_id),
+def create_issue(
+        db: Session, 
+        issue: IssueCreate
+    ) -> IssueResponse:
+    new_issue = Issue(
+        id=str(uuid.uuid4()),
         title=issue.title,
         description=issue.description,
         status=StatusEnum.open,
         priority=issue.priority,
-        date_added=date,
+        date_added=datetime.datetime.now(),
         date_completed=None,
     )
-    issues.append(new_issue)
-    save_issues(issues)
+    db.add(new_issue)
+    db.commit()
+    db.refresh(new_issue)
+
     return new_issue
 
-def read_issues(status: StatusEnum | None = None, priority: PriorityEnum | None = None, skip: int = 0, limit: int = 10,) -> IssueListResponse:
-    issues = load_issues()
-    filtered_issues = issues
+def read_issues(
+        db: Session, 
+        status: StatusEnum | None = None, 
+        priority: PriorityEnum | None = None, 
+        skip: int = 0, 
+        limit: int = 10,
+    ) -> IssueListResponse:
+    query = db.query(Issue)
     if status is not None:
-        filtered_issues = [
-            issue
-            for issue in filtered_issues
-            if issue.status == status
-        ]
+        query = query.filter(
+            Issue.status == status
+        )
     if priority is not None:
-        filtered_issues = [
-            issue
-            for issue in filtered_issues
-            if issue.priority == priority
-        ]
+        query = query.filter(
+            Issue.priority == priority
+        )
+    total = query.count()
+    items = ( query.offset(skip).limit(limit).all() )
+    return IssueListResponse(
+        items=items,
+        total=total,
+        skip=skip,
+        limit=limit,
+    )
 
-    total = len(filtered_issues)
+def read_issue(
+        db: Session, 
+        id: str
+    ) -> Issue:
+    issue = (
+        db.query(Issue)
+        .filter(Issue.id == id)
+        .first()
+    )
+    if issue is None:
+        raise issue_not_found()
+    return issue
 
-    items = filtered_issues[
-        skip: skip + limit
-    ]
+def update_issue(
+        db: Session, 
+        id: str, 
+        updated_issue: IssueUpdate
+    ) -> Issue:
 
-    return {
-        "items": items,
-        "total": total,
-        "skip": skip,
-        "limit": limit,
-    }
+    issue = (
+        db.query(Issue)
+        .filter(Issue.id == id)
+        .first()
+    )
 
-def read_issue(id: str) -> IssueResponse:
-    issues = load_issues()
-    for issue in issues:
-        if issue.id == id:
-            return issue
-    raise issue_not_found()
+    if issue is None:
+        raise issue_not_found()
 
-def update_issue(id: str, updated_issue: IssueUpdate) -> IssueResponse:
-    issues = load_issues()
-    for index, issue in enumerate(issues):
+    if updated_issue.title is not None:
+        issue.title = updated_issue.title
 
-        if issue.id == id:
-            new_status = updated_issue.status if updated_issue.status is not None else issue.status
+    if updated_issue.description is not None:
+        issue.description = updated_issue.description
 
-            if new_status == StatusEnum.closed:
-                date_completed = (
-                    issue.date_completed
-                    if issue.status == StatusEnum.closed
-                    else datetime.datetime.now()
-                )
-            else:
-                date_completed = None
+    if updated_issue.priority is not None:
+        issue.priority = updated_issue.priority
 
-            update_issue_response = IssueResponse(
-                id=issue.id,
-                title=updated_issue.title if updated_issue.title is not None else issue.title,
-                description=updated_issue.description if updated_issue.description is not None else issue.description,
-                status=updated_issue.status if updated_issue.status is not None else issue.status,
-                priority=updated_issue.priority if updated_issue.priority is not None else issue.priority,
-                date_added=issue.date_added,
-                date_completed=date_completed,
-            )
+    if updated_issue.status is not None:
 
-            issues[index] = update_issue_response
-            save_issues(issues)
-            return update_issue_response
+        issue.status = updated_issue.status
 
-    raise issue_not_found()
+        if updated_issue.status == StatusEnum.closed:
 
-def delete_issue(id: str) -> IssueResponse:
-    issues = load_issues()
-    for index, issue in enumerate(issues):
-        if issue.id == id:
-            del issues[index]
-            save_issues(issues)
-            return issue
+            if issue.date_completed is None:
+                issue.date_completed = datetime.datetime.utcnow()
 
-    raise issue_not_found()
+        else:
+
+            issue.date_completed = None
+
+    db.commit()
+
+    db.refresh(issue)
+
+    return issue
+
+def delete_issue(
+        db: Session, 
+        id: str
+    ) -> Issue:
+    issue = (
+        db.query(Issue)
+        .filter(Issue.id == id)
+        .first()
+    )
+    if issue is None:
+        raise issue_not_found()
+
+    db.delete(issue)
+    db.commit()
+
+    return issue

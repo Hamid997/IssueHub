@@ -1,6 +1,8 @@
-from .models import PriorityEnum, StatusEnum
-from pydantic import BaseModel, Field
+from .enums import StatusEnum, PriorityEnum
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 import datetime
+
+# Issues
 
 class IssueCreate(BaseModel):
     title: str = Field(min_length=10,max_length=50)
@@ -14,6 +16,7 @@ class IssueUpdate(BaseModel):
     priority: PriorityEnum | None = None
 
 class IssueResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: str
     title: str
     description: str | None = None
@@ -23,7 +26,34 @@ class IssueResponse(BaseModel):
     date_completed: datetime.datetime | None = None
 
 class IssueListResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     items: list[IssueResponse]
     total: int
     skip: int
     limit: int
+
+# Users
+
+class UserCreate(BaseModel):
+    username: str = Field( min_length=3, max_length=30 )
+    email: EmailStr
+    password: str = Field( min_length=6 )
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+class UserResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    username: str 
+    email: EmailStr
+    date_created: datetime.datetime
+
+# Authentication
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+

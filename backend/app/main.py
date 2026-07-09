@@ -1,6 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routers import issues
+from .routers import issues, users
+
+from .database import Base, engine
+
+from . import models
+
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="IssueHub API",
@@ -19,6 +25,7 @@ app.add_middleware(
 )
 
 app.include_router(issues.router)
+app.include_router(users.router)
 
 @app.get("/")
 async def root():
