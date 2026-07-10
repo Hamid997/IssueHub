@@ -1,5 +1,7 @@
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
+import { Link } from "react-router-dom";
+import { ClipboardCheck } from "lucide-react";
 
 export default function LoginForm() {
 
@@ -31,7 +33,12 @@ export default function LoginForm() {
 
         <form className="login-form" onSubmit={handleSubmit}>
 
-            <h1>IssueHub</h1>
+            <Link to="/login">
+                <h1>
+                    <ClipboardCheck />
+                    IssueHub
+                </h1>
+            </Link>
 
             <p>Sign in to your account</p>
 

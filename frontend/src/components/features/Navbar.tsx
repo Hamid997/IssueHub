@@ -1,6 +1,6 @@
 import { ClipboardCheck } from 'lucide-react';
 import useAuthContext from "../../hooks/useAuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
     const { logout } = useAuthContext();
@@ -8,21 +8,21 @@ export default function Navbar() {
     const navigate = useNavigate();
 
     function handleLogout() {
-
         logout();
-
         navigate("/login");
-
     }
     return (
         <header className="navbar">
-            <a href="">
-                <strong><ClipboardCheck />IssueHub</strong>
-            </a>
+            <Link to="/">
+                <strong>
+                    <ClipboardCheck />
+                    IssueHub
+                </strong>
+            </Link>
+
             <button onClick={handleLogout}>
-
                 Logout
-
             </button>
-        </header>)
+        </header>
+    )
 }
