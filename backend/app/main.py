@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routers import issues, users
+from .config import settings
 
+from .routers import issues, users
 from .database import Base, engine
 
 from . import models
@@ -17,8 +18,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173",
-        "https://issuehub.vercel.app"
+        settings.FRONTEND_URL,
     ],
     allow_credentials=True,
     allow_methods=["*"],

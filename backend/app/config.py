@@ -10,6 +10,8 @@ class Settings(BaseSettings):
 
     ALGORITHM: str = "HS256"
 
+    FRONTEND_URL: str
+
     model_config = SettingsConfigDict(
         env_file=".env"
     )
