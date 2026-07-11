@@ -541,3 +541,13 @@ font-size:var(--font-size-small);
     border-radius: var(--radius-md);
 }
 
+
+
+.underline_text{
+    margin-top: 1rem;
+    text-align: center;
+}
+.underline_link{
+    text-decoration: underline;
+    color: var(--color-primary);
+}

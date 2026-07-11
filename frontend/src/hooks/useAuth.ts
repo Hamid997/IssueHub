@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+
 import useAuthContext from "./useAuthContext";
 import authService from "../services/authService";
 import { getErrorMessage } from "../utils/errorHandler";
 
 export default function useAuth() {
-
-  const auth = useAuthContext();
+    const auth = useAuthContext();
 
     const navigate = useNavigate();
 
@@ -17,56 +17,67 @@ export default function useAuth() {
         email: string,
         password: string,
     ) {
-
         try {
-
             setLoading(true);
-
-            const response = await authService.login({
-                email,
-                password,
-            });
-
+            const response = await authService.login({ email, password });
             authService.saveToken(
                 response.access_token
             );
-auth.login();
+            auth.login();
             toast.success("Login successful");
-
             navigate("/");
 
         } catch (error) {
-
             toast.error(
                 getErrorMessage(error)
             );
-
         } finally {
-
             setLoading(false);
-
         }
+    }
 
+     async function register(data: {
+        username: string;
+        email: string;
+        password: string;
+    }) {
+        try {
+            setLoading(true);
+            await authService.register(data);
+            const response = await authService.login({
+                    email: data.email,
+                    password: data.password,
+                });
+            authService.saveToken(
+                response.access_token,
+            );
+            auth.login();
+            toast.success(
+                "Account created successfully",
+            );
+            navigate("/");
+        }
+        catch (error) {
+            toast.error(
+                getErrorMessage(error),
+            );
+        }
+        finally {
+            setLoading(false);
+        }
     }
 
     function logout() {
-
-auth.logout();
+        auth.logout();
         navigate("/login");
-
     }
 
     return {
-
         loading,
-
         login,
-
+        register,
         logout,
-
-        isAuthenticated:
-            authService.isAuthenticated(),
-
+        isAuthenticated: authService.isAuthenticated(),
     };
 
 }

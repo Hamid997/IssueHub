@@ -43,9 +43,7 @@ export default function LoginForm() {
             <p>Sign in to your account</p>
 
             <label>
-
                 Email
-
                 <input
                     type="email"
                     value={email}
@@ -53,13 +51,10 @@ export default function LoginForm() {
                         setEmail(e.target.value)
                     }
                 />
-
             </label>
 
             <label>
-
                 Password
-
                 <input
                     type="password"
                     value={password}
@@ -67,18 +62,21 @@ export default function LoginForm() {
                         setPassword(e.target.value)
                     }
                 />
-
             </label>
 
             <button
                 type="submit"
                 disabled={loading}
             >
-
                 {loading ? "Signing In..." : "Sign In"}
-
             </button>
-        </form>
 
+            <p className={"underline_text"} >
+                Don't have an account?{" "}
+                <Link to="/register" className={"underline_link"}>
+                    Create one
+                </Link>
+            </p>
+        </form>
     );
 }
