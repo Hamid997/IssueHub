@@ -7,77 +7,111 @@ import authService from "../services/authService";
 import { getErrorMessage } from "../utils/errorHandler";
 
 export default function useAuth() {
-    const auth = useAuthContext();
+  const auth = useAuthContext();
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-    async function login(
-        email: string,
-        password: string,
-    ) {
-        try {
-            setLoading(true);
-            const response = await authService.login({ email, password });
-            authService.saveToken(
-                response.access_token
-            );
-            auth.login();
-            toast.success("Login successful");
-            navigate("/");
+  async function login(
+    email: string,
+    password: string
+  ) {
+    try {
+      setLoading(true);
 
-        } catch (error) {
-            toast.error(
-                getErrorMessage(error)
-            );
-        } finally {
-            setLoading(false);
-        }
+      const response = await authService.login({
+        email,
+        password,
+      });
+
+      authService.saveToken(
+        response.access_token
+      );
+
+      const user =
+        await authService.getCurrentUser();
+
+      authService.saveUser(user);
+
+      auth.login(user);
+
+      toast.success("Login successful");
+
+      navigate("/");
+
+    } catch (error) {
+
+      toast.error(
+        getErrorMessage(error)
+      );
+
+    } finally {
+
+      setLoading(false);
+
     }
+  }
 
-     async function register(data: {
-        username: string;
-        email: string;
-        password: string;
-    }) {
-        try {
-            setLoading(true);
-            await authService.register(data);
-            const response = await authService.login({
-                    email: data.email,
-                    password: data.password,
-                });
-            authService.saveToken(
-                response.access_token,
-            );
-            auth.login();
-            toast.success(
-                "Account created successfully",
-            );
-            navigate("/");
-        }
-        catch (error) {
-            toast.error(
-                getErrorMessage(error),
-            );
-        }
-        finally {
-            setLoading(false);
-        }
+  async function register(data: {
+    username: string;
+    email: string;
+    password: string;
+  }) {
+
+    try {
+
+      setLoading(true);
+
+      await authService.register(data);
+
+      const response =
+        await authService.login({
+          email: data.email,
+          password: data.password,
+        });
+
+      authService.saveToken(
+        response.access_token
+      );
+
+      const user =
+        await authService.getCurrentUser();
+
+      authService.saveUser(user);
+
+      auth.login(user);
+
+      toast.success(
+        "Account created successfully"
+      );
+
+      navigate("/");
+
+    } catch (error) {
+
+      toast.error(
+        getErrorMessage(error)
+      );
+
+    } finally {
+
+      setLoading(false);
+
     }
+  }
 
-    function logout() {
-        auth.logout();
-        navigate("/login");
-    }
+  function logout() {
+    auth.logout();
+    navigate("/login");
+  }
 
-    return {
-        loading,
-        login,
-        register,
-        logout,
-        isAuthenticated: authService.isAuthenticated(),
-    };
-
+  return {
+    loading,
+    login,
+    register,
+    logout,
+    isAuthenticated:
+      authService.isAuthenticated(),
+  };
 }

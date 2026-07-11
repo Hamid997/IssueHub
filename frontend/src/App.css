@@ -551,3 +551,334 @@ font-size:var(--font-size-small);
     text-decoration: underline;
     color: var(--color-primary);
 }
+
+/* Not Found */
+
+.not-found-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+.not-found-card {
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 3rem;
+    text-align: center;
+    background: white;
+}
+.not-found-card svg {
+    color: #2563eb;
+    margin-bottom: 1rem;
+}
+.not-found-card h1 {
+    font-size: 4rem;
+    margin-bottom: .5rem;
+}
+.not-found-card h2 {
+    margin-bottom: 1rem;
+}
+.not-found-card p {
+    color: #6b7280;
+    margin-bottom: 2rem;
+}
+.back-home-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    background: #2563eb;
+    color: white;
+    padding: .8rem 1.6rem;
+    border-radius: 8px;
+}
+.back-home-button:hover {
+    background: #1d4ed8;
+}
+
+/* ===========================
+   Navbar
+=========================== */
+
+.navbar {
+  height: 72px;
+  padding: 0 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: #fff;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  text-decoration: none;
+  color: #2563eb;
+
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.navbar-logo svg {
+  width: 26px;
+  height: 26px;
+}
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+
+  border-radius: 999px;
+
+  background: #dbeafe;
+  color: #2563eb;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 700;
+  font-size: 0.95rem;
+
+  flex-shrink: 0;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.user-info strong {
+  font-size: .95rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.user-info small {
+  font-size: .78rem;
+  color: #6b7280;
+}
+
+.logout-button {
+  width: 34px;
+  height: 34px;
+
+  border: none;
+  border-radius: 999px;
+
+  background: transparent;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  transition: .2s;
+}
+
+.logout-button:hover {
+  background: #f3f4f6;
+}
+
+.logout-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+
+.user-menu{
+
+    position:relative;
+
+}
+
+.user-trigger{
+
+    display:flex;
+    align-items:center;
+    gap:14px;
+
+    border:none;
+    background:white;
+
+    cursor:pointer;
+
+    padding:8px 12px;
+
+    border-radius:12px;
+
+    transition:.2s;
+
+}
+
+.user-trigger:hover{
+
+    background:#f8fafc;
+
+}
+
+.avatar{
+
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    background:#dbeafe;
+
+    color:#2563eb;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-weight:700;
+
+    flex-shrink:0;
+
+}
+
+.avatar.large{
+
+    width:54px;
+    height:54px;
+
+}
+
+.user-info{
+
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+
+}
+
+.user-info strong{
+
+    font-size:.95rem;
+
+}
+
+.user-info small{
+
+    font-size:.78rem;
+
+    color:#6b7280;
+
+}
+
+.dropdown{
+
+    position:absolute;
+
+    top:calc(100% + 10px);
+
+    right:0;
+
+    width:260px;
+
+    background:white;
+
+    border:1px solid #e5e7eb;
+
+    border-radius:16px;
+
+    overflow:hidden;
+
+    z-index:1000;
+
+    box-shadow:
+    0 8px 24px rgba(15,23,42,.08);
+
+}
+
+.dropdown-header{
+
+    display:flex;
+
+    gap:14px;
+
+    padding:16px;
+
+}
+
+.dropdown-header div{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.dropdown hr{
+
+    border:none;
+
+    border-top:1px solid #f1f5f9;
+
+}
+
+.dropdown-item{
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:14px 18px;
+
+    border:none;
+
+    background:white;
+
+    cursor:pointer;
+
+    font-size:.92rem;
+
+}
+
+.dropdown-item:hover{
+
+    background:#f8fafc;
+
+}
+
+.dropdown-item.disabled{
+
+    color:#9ca3af;
+
+    cursor:not-allowed;
+
+}
+
+.dropdown-item.logout{
+
+    color:#dc2626;
+
+}
+
+.dropdown-item.logout:hover{
+
+    background:#fef2f2;
+
+}

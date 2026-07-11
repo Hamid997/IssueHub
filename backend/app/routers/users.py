@@ -4,6 +4,8 @@ from sqlalchemy.orm import Session
 from ..database import get_db
 from ..schemas import UserCreate, UserLogin, UserResponse, Token
 from ..services import user_service
+from ..security import get_current_user
+from ..models import User
 
 router = APIRouter(
     prefix="/users",
@@ -31,3 +33,13 @@ def login_user(
         db=db,
         user=user,
     )
+
+@router.get(
+    "/me",
+    response_model=UserResponse,
+    status_code=status.HTTP_200_OK,
+)
+def get_me(
+    current_user: User = Depends(get_current_user),
+):
+    return current_user

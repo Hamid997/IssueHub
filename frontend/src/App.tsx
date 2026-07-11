@@ -1,8 +1,9 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import DashboardPage from "./pages/DashboardPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 import ProtectedRoute from "./routes/ProtectedRoute";
 
@@ -31,7 +32,7 @@ export default function App() {
 
       <Route
         path="*"
-        element={<Navigate to="/" replace />}
+        element={<NotFoundPage />}
       />
     </Routes>
   );

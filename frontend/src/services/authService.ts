@@ -16,7 +16,15 @@ interface TokenResponse {
   token_type: string;
 }
 
+export interface CurrentUser  {
+  id: string;
+  username: string;
+  email: string;
+}
+
 const TOKEN_KEY = "token";
+const USER_KEY = "user";
+
 
 const authService = {
   async login(data: LoginData): Promise<TokenResponse> {
@@ -29,6 +37,11 @@ const authService = {
     return response.data;
   },
 
+  async getCurrentUser(): Promise<CurrentUser> {
+    const response = await api.get("/users/me");
+    return response.data;
+  },
+
   saveToken(token: string) {
     localStorage.setItem(TOKEN_KEY, token);
   },
@@ -37,8 +50,32 @@ const authService = {
     return localStorage.getItem(TOKEN_KEY);
   },
 
+ saveUser(user: CurrentUser) {
+    localStorage.setItem(
+      USER_KEY,
+      JSON.stringify(user)
+    );
+  },
+
+    getUser(): CurrentUser | null {
+    const value = localStorage.getItem(USER_KEY);
+
+    if (!value) {
+      return null;
+    }
+
+    try {
+      return JSON.parse(value) as CurrentUser;
+    } catch {
+      localStorage.removeItem(USER_KEY);
+      return null;
+    }
+  },
+
+
   logout() {
-    localStorage.removeItem("token");
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
   },
 
   isAuthenticated(): boolean {
