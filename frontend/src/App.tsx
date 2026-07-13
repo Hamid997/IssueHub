@@ -4,6 +4,7 @@ import DashboardPage from "./pages/DashboardPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import MyProfilePage from "./pages/MyProfilePage";
 
 import ProtectedRoute from "./routes/ProtectedRoute";
 
@@ -21,6 +22,15 @@ export default function App() {
         element={
           <ProtectedRoute>
             <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <MyProfilePage />
           </ProtectedRoute>
         }
       />

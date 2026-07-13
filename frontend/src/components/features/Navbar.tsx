@@ -144,13 +144,22 @@ export default function Navbar() {
 
             <hr />
 
-            <button className="dropdown-item">
+<button
+    className="dropdown-item"
+    onClick={() => {
 
-              <User size={18} />
+        setOpen(false);
 
-              My profile
+        navigate("/profile");
 
-            </button>
+    }}
+>
+
+    <User size={18} />
+
+    My Profile
+
+</button>
 
             <button
               className="dropdown-item disabled"
