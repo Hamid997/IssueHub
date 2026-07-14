@@ -33,11 +33,9 @@ export default function LoginForm() {
 
         <form className="login-form" onSubmit={handleSubmit}>
 
-            <Link to="/login">
-                <h1>
-                    <ClipboardCheck />
-                    IssueHub
-                </h1>
+            <Link to="/login" className="navbar-logo login-logo">
+                <ClipboardCheck />
+                <h1>IssueHub</h1>
             </Link>
 
             <p>Sign in to your account</p>

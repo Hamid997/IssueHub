@@ -57,3 +57,7 @@ class Token(BaseModel):
     access_token: str
     token_type: str
 
+class ChangePasswordRequest(BaseModel):
+    current_password: str = Field(min_length=8)
+    new_password: str = Field(min_length=8)
+    confirm_password: str = Field(min_length=8)

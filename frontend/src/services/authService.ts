@@ -16,10 +16,16 @@ interface TokenResponse {
   token_type: string;
 }
 
-export interface CurrentUser  {
+export interface CurrentUser {
   id: string;
   username: string;
   email: string;
+}
+
+export interface ChangePasswordData {
+    current_password: string;
+    new_password: string;
+    confirm_password: string;
 }
 
 const TOKEN_KEY = "token";
@@ -50,14 +56,14 @@ const authService = {
     return localStorage.getItem(TOKEN_KEY);
   },
 
- saveUser(user: CurrentUser) {
+  saveUser(user: CurrentUser) {
     localStorage.setItem(
       USER_KEY,
       JSON.stringify(user)
     );
   },
 
-    getUser(): CurrentUser | null {
+  getUser(): CurrentUser | null {
     const value = localStorage.getItem(USER_KEY);
 
     if (!value) {
@@ -72,6 +78,11 @@ const authService = {
     }
   },
 
+  async changePassword(data: ChangePasswordData) {
+    const response = await api.patch("/users/change-password", data);
+
+    return response.data;
+  },
 
   logout() {
     localStorage.removeItem(TOKEN_KEY);

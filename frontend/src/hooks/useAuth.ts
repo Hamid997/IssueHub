@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import useAuthContext from "./useAuthContext";
 import authService from "../services/authService";
 import { getErrorMessage } from "../utils/errorHandler";
+import type { ChangePasswordData } from "../services/authService";
 
 export default function useAuth() {
   const auth = useAuthContext();
@@ -101,6 +102,22 @@ export default function useAuth() {
     }
   }
 
+  async function changePassword(data: ChangePasswordData) {
+    try {
+      setLoading(true);
+      const response = await authService.changePassword(data);
+      toast.success(response.message);
+    }
+    catch (error) {
+      toast.error(
+        getErrorMessage(error),
+      );
+    }
+    finally {
+      setLoading(false);
+    }
+  }
+
   function logout() {
     auth.logout();
     navigate("/login");
@@ -110,8 +127,8 @@ export default function useAuth() {
     loading,
     login,
     register,
+    changePassword,
     logout,
-    isAuthenticated:
-      authService.isAuthenticated(),
+    isAuthenticated: authService.isAuthenticated(),
   };
 }

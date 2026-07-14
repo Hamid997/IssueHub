@@ -102,18 +102,6 @@ export default function Navbar() {
             {initials}
           </div>
 
-          {/* <div className="user-info">
-
-            <strong>
-              {currentUser?.username}
-            </strong>
-
-            <small>
-              {currentUser?.email}
-            </small>
-
-          </div> */}
-
           <ChevronDown size={18} />
 
         </button>
@@ -144,32 +132,29 @@ export default function Navbar() {
 
             <hr />
 
-<button
-    className="dropdown-item"
-    onClick={() => {
-
-        setOpen(false);
-
-        navigate("/profile");
-
-    }}
->
-
-    <User size={18} />
-
-    My Profile
-
-</button>
+            <button
+              className="dropdown-item"
+              onClick={() => {
+                setOpen(false);
+                navigate("/profile");
+              }}
+            >
+              <User size={18} />
+              My Profile
+            </button>
 
             <button
-              className="dropdown-item disabled"
-              disabled
+              className="dropdown-item"
+              onClick={() => {
+
+                navigate("/settings");
+
+                setOpen(false);
+
+              }}
             >
-
               <Settings size={18} />
-
               Settings
-
             </button>
 
             <hr />

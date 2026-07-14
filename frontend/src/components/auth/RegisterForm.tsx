@@ -39,13 +39,13 @@ export default function RegisterForm() {
             className="login-form"
             onSubmit={handleSubmit}
         >
-            <Link to="/register">
-                <h1>
-                    <ClipboardCheck />
-                    IssueHub
-                </h1>
+            <Link to="/register" className="navbar-logo register-logo">
+                <ClipboardCheck />
+                <h1>IssueHub</h1>
             </Link>
+
             <p>Create your account</p>
+
             <label>
                 Username
                 <input

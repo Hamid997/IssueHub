@@ -7,6 +7,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import MyProfilePage from "./pages/MyProfilePage";
 
 import ProtectedRoute from "./routes/ProtectedRoute";
+import SettingsPage from "./pages/SettingsPage";
 
 export default function App() {
 
@@ -33,6 +34,11 @@ export default function App() {
             <MyProfilePage />
           </ProtectedRoute>
         }
+      />
+      
+      <Route
+        path="/settings"
+        element={<SettingsPage />}
       />
 
       <Route

@@ -4,12 +4,8 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 
 from ..models import User
-from ..schemas import UserCreate, UserLogin, Token
-from ..security import (
-    hash_password,
-    verify_password,
-    create_access_token,
-)
+from ..schemas import ( UserCreate, UserLogin, Token, ChangePasswordRequest )
+from ..security import ( hash_password, verify_password, create_access_token )
 
 
 def create_user(
@@ -91,3 +87,44 @@ def authenticate_user(
         access_token=access_token,
         token_type="bearer",
     )
+
+
+def change_password(
+    db: Session,
+    current_user: User,
+    data: ChangePasswordRequest,
+):
+
+    if not verify_password(
+        data.current_password,
+        current_user.hashed_password,
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Current password is incorrect",
+        )
+
+    if data.new_password != data.confirm_password:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Passwords do not match",
+        )
+
+    if verify_password(
+        data.new_password,
+        current_user.hashed_password,
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="New password must be different",
+        )
+
+    current_user.hashed_password = hash_password(
+        data.new_password
+    )
+
+    db.commit()
+
+    return {
+        "message": "Password changed successfully",
+    }

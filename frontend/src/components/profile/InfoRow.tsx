@@ -9,19 +9,10 @@ export default function InfoRow({
 }: InfoRowProps) {
 
     return (
-
         <div className="profile-info-row">
-
-            <span className="profile-info-label">
-                {label}
-            </span>
-
-            <span className="profile-info-value">
-                {value}
-            </span>
-
+            <span className="profile-info-label">{label}</span>
+            <span className="profile-info-value">{value}</span>
         </div>
-
     );
 
 }
