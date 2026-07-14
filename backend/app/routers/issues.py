@@ -14,13 +14,17 @@ router = APIRouter(
 )
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("/", status_code=status.HTTP_201_CREATED,response_model=IssueResponse)
 async def create_issue(
     issue: IssueCreate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ) -> IssueResponse:
-    return issue_service.create_issue(db,issue)
+    return issue_service.create_issue(        
+        db=db,
+        issue=issue,
+        current_user=current_user
+    )
 
 
 @router.get("/", status_code=status.HTTP_200_OK,response_model=IssueListResponse)
@@ -38,6 +42,7 @@ async def get_issues(
         priority=priority,
         skip=skip,
         limit=limit,
+        current_user=current_user,
     )
 
 
@@ -47,7 +52,11 @@ async def read_issue(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
     ) -> IssueResponse:
-    return issue_service.read_issue(db,id)
+    return issue_service.read_issue(        
+        db=db,
+        id=id,
+        current_user=current_user
+    )
 
 
 @router.put("/{id}", response_model=IssueResponse)
@@ -57,7 +66,12 @@ def update_issue(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
     ) -> IssueResponse:
-    return issue_service.update_issue(db,id, updated_issue)
+    return issue_service.update_issue(        
+        db=db,
+        id=id,
+        updated_issue=updated_issue,
+        current_user=current_user,
+    )
 
 
 @router.delete("/{id}", response_model=IssueResponse)
@@ -66,4 +80,8 @@ def delete_issue(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
     ) -> IssueResponse:
-    return issue_service.delete_issue(db,id)
+    return issue_service.delete_issue(
+        db=db,
+        id=id,
+        current_user=current_user,
+    )

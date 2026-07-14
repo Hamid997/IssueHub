@@ -4,12 +4,13 @@ from sqlalchemy.orm import Session
 
 from ..exceptions import issue_not_found
 from ..enums import PriorityEnum, StatusEnum
-from ..models import Issue
+from ..models import Issue, User
 from ..schemas import IssueCreate, IssueListResponse, IssueResponse, IssueUpdate
 
 def create_issue(
         db: Session, 
-        issue: IssueCreate
+        issue: IssueCreate,
+        current_user: User
     ) -> IssueResponse:
     new_issue = Issue(
         id=str(uuid.uuid4()),
@@ -19,6 +20,7 @@ def create_issue(
         priority=issue.priority,
         date_added=datetime.datetime.now(),
         date_completed=None,
+        owner_id=current_user.id,
     )
     db.add(new_issue)
     db.commit()
@@ -28,12 +30,15 @@ def create_issue(
 
 def read_issues(
         db: Session, 
+        current_user: User,
         status: StatusEnum | None = None, 
         priority: PriorityEnum | None = None, 
         skip: int = 0, 
         limit: int = 10,
     ) -> IssueListResponse:
-    query = db.query(Issue)
+    query = db.query(Issue).filter(
+        Issue.owner_id == current_user.id
+    )
     if status is not None:
         query = query.filter(
             Issue.status == status
@@ -53,11 +58,15 @@ def read_issues(
 
 def read_issue(
         db: Session, 
+        current_user: User,
         id: str
     ) -> Issue:
     issue = (
         db.query(Issue)
-        .filter(Issue.id == id)
+        .filter(
+            Issue.id == id,
+            Issue.owner_id == current_user.id,
+        )
         .first()
     )
     if issue is None:
@@ -67,12 +76,16 @@ def read_issue(
 def update_issue(
         db: Session, 
         id: str, 
+        current_user: User,
         updated_issue: IssueUpdate
     ) -> Issue:
 
     issue = (
         db.query(Issue)
-        .filter(Issue.id == id)
+        .filter(
+            Issue.id == id,
+            Issue.owner_id == current_user.id,
+        )
         .first()
     )
 
@@ -109,11 +122,15 @@ def update_issue(
 
 def delete_issue(
         db: Session, 
+        current_user: User,
         id: str
     ) -> Issue:
     issue = (
         db.query(Issue)
-        .filter(Issue.id == id)
+        .filter(
+            Issue.id == id,
+            Issue.owner_id == current_user.id,
+        )
         .first()
     )
     if issue is None:
