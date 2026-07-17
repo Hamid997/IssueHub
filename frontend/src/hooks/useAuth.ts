@@ -118,6 +118,32 @@ export default function useAuth() {
     }
   }
 
+  async function uploadAvatar(file: File) {
+  try {
+    setLoading(true);
+
+    const updatedUser =
+      await authService.uploadAvatar(file);
+
+    authService.saveUser(updatedUser);
+
+    auth.setCurrentUser(updatedUser);
+
+    toast.success("Avatar updated successfully");
+
+  } catch (error) {
+
+    toast.error(
+      getErrorMessage(error)
+    );
+
+  } finally {
+
+    setLoading(false);
+
+  }
+}
+
   function logout() {
     auth.logout();
     navigate("/login");
@@ -128,6 +154,7 @@ export default function useAuth() {
     login,
     register,
     changePassword,
+    uploadAvatar,
     logout,
     isAuthenticated: authService.isAuthenticated(),
   };

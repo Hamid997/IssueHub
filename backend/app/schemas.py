@@ -49,6 +49,7 @@ class UserResponse(BaseModel):
     id: str
     username: str 
     email: EmailStr
+    avatar_url: str | None = None
     date_created: datetime.datetime
 
 # Authentication

@@ -1,4 +1,5 @@
 import api from "../api/api";
+import type { User } from "../types/User";
 
 interface LoginData {
   email: string;
@@ -16,16 +17,12 @@ interface TokenResponse {
   token_type: string;
 }
 
-export interface CurrentUser {
-  id: string;
-  username: string;
-  email: string;
-}
+export type CurrentUser = User;
 
 export interface ChangePasswordData {
-    current_password: string;
-    new_password: string;
-    confirm_password: string;
+  current_password: string;
+  new_password: string;
+  confirm_password: string;
 }
 
 const TOKEN_KEY = "token";
@@ -80,6 +77,24 @@ const authService = {
 
   async changePassword(data: ChangePasswordData) {
     const response = await api.patch("/users/change-password", data);
+
+    return response.data;
+  },
+
+  async uploadAvatar(file: File): Promise<CurrentUser> {
+    const formData = new FormData();
+
+    formData.append("file", file);
+
+    const response = await api.post(
+      "/users/avatar",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
     return response.data;
   },

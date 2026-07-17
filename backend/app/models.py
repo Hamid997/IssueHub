@@ -35,6 +35,7 @@ class User(Base):
     username = Column(String(30),unique=True,nullable=False,index=True)
     email = Column(String(255),unique=True,nullable=False,index=True)
     hashed_password = Column(String(255),nullable=False)
+    avatar_url = Column(String(255),nullable=True)
     date_created = Column(DateTime,nullable=False,default=datetime.utcnow)
 
     issues = relationship("Issue",back_populates="owner",cascade="all, delete")

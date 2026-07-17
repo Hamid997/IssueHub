@@ -12,6 +12,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 import useAuthContext from "../../hooks/useAuthContext";
 
+import Avatar from "../base/Avatar";
+
 export default function Navbar() {
 
   const {
@@ -57,12 +59,6 @@ export default function Navbar() {
 
   }, []);
 
-
-  const initials =
-    currentUser?.username
-      ?.substring(0, 2)
-      .toUpperCase() || "U";
-
   function handleLogout() {
 
     logout();
@@ -98,9 +94,11 @@ export default function Navbar() {
           }
         >
 
-          <div className="avatar">
-            {initials}
-          </div>
+          {currentUser && (
+            <Avatar
+              user={currentUser}
+            />
+          )}
 
           <ChevronDown size={18} />
 
@@ -112,9 +110,12 @@ export default function Navbar() {
 
             <div className="dropdown-header">
 
-              <div className="avatar large">
-                {initials}
-              </div>
+              {currentUser && (
+                <Avatar
+                  user={currentUser}
+                  size="large"
+                />
+              )}
 
               <div>
 
@@ -135,8 +136,11 @@ export default function Navbar() {
             <button
               className="dropdown-item"
               onClick={() => {
+
                 setOpen(false);
+
                 navigate("/profile");
+
               }}
             >
               <User size={18} />
