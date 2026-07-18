@@ -15,26 +15,27 @@ export default function Avatar({
 
     const className =
         size === "profile"
-            ? "profile-avatar"
+            ? "profile"
             : size === "large"
-                ? "avatar large"
-                : "avatar";
+                ? "large"
+                : "small";
 
     const API_URL = import.meta.env.VITE_API_URL;
 
 
     if (user.avatar_url) {
         return (
-            <img
-                src={`${API_URL}${user.avatar_url}`}
-                alt={user.username}
-                className={`${className} avatar-image`}
-            />
+            <div className={`avatar ${size}`}>
+                <img
+                    src={`${API_URL}${user.avatar_url}`}
+                    alt={user.username}
+                />
+            </div>
         );
     }
 
     return (
-        <div className={`${className} avatar-placeholder`}>
+        <div className={`avatar ${className} avatar-placeholder`}>
             {initials}
         </div>
     );

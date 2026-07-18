@@ -97,6 +97,7 @@ export default function Navbar() {
           {currentUser && (
             <Avatar
               user={currentUser}
+              size="small"
             />
           )}
 
