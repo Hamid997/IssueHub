@@ -11,11 +11,7 @@ from sqlalchemy.orm import Session
 from ..exceptions import issue_not_found
 from ..enums import PriorityEnum, StatusEnum
 from ..models import Issue, User
-from ..schemas import (
-    IssueCreate,
-    IssueListResponse,
-    IssueUpdate,
-)
+from ..schemas import ( IssueCreate, IssueListResponse, IssueUpdate)
 
 
 def create_issue(

@@ -8,8 +8,6 @@ from .database import Base, engine
 
 from . import models
 
-Base.metadata.create_all(bind=engine)
-
 app = FastAPI(
     title="IssueHub API",
     description="Backend API for managing project issues",

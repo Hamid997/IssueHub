@@ -1,15 +1,23 @@
-Issue
+# Entities
 
---------
+## User
 
-id
+- id
+- username
+- email
+- hashed_password
+- avatar_url
+- created_at
 
-title
+---
 
-description
+## Issue
 
-status
-
-priority
-
-created_at
+- id
+- title
+- description
+- status
+- priority
+- owner_id
+- created_at
+- updated_at

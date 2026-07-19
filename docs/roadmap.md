@@ -1,70 +1,85 @@
-IssueHub
+# IssueHub Roadmap
 
-Phase 1 : Learn FastAPI
-────────────────────────
+## Phase 1
 
-☑ Lesson 1
-Setup FastAPI
-- Virtual Environment
-- FastAPI
-- Uvicorn
-- Swagger
+✅ FastAPI Basics
 
-☑ Lesson 2
-POST
-- Pydantic Model
-- Request Body
-- Validation
-- Swagger Test
+✅ CRUD
 
-⬜ Lesson 3
-Store Data
-- Python List
-- append()
-- Return Created Object
+✅ SQLAlchemy
 
-⬜ Lesson 4
-GET
-- Return List
-- Response Model
-- List[Issue]
+✅ SQLite
 
-⬜ Lesson 5
-GET by ID
-- Path Parameters
+---
 
-⬜ Lesson 6
-PUT
-- Update Issue
+## Phase 2
 
-⬜ Lesson 7
-DELETE
-- Delete Issue
+✅ React Setup
 
-⬜ Lesson 8
-Project Structure Refactoring
+✅ Authentication
 
-────────────────────────
+✅ JWT
 
-Phase 2
-React
+✅ Protected Routes
 
-────────────────────────
+---
 
-Phase 3
-SQLite + SQLAlchemy
+## Phase 3
 
-────────────────────────
+✅ Issue CRUD
 
-Phase 4
-React + Database
+✅ Search
 
-────────────────────────
+✅ Filters
 
-Phase 5
-Authentication
+✅ Pagination
 
-────────────────────────
+---
 
-Phase 6
-Deployment
+## Phase 4
+
+✅ User Profile
+
+✅ Avatar Upload
+
+✅ Change Password
+
+---
+
+## Phase 5
+
+✅ Railway Deployment
+
+✅ Vercel Deployment
+
+✅ PostgreSQL
+
+---
+
+## Future
+
+⬜ Email Verification
+
+⬜ Forgot Password
+
+⬜ Multiple Workspaces
+
+⬜ Comments
+
+⬜ Attachments
+
+⬜ Labels
+
+⬜ Notifications
+
+⬜ Admin Panel
+
+⬜ Activity Log
+
+⬜ Dark Mode
+
+⬜ Unit Tests
+
+⬜ Docker
+
+⬜ CI/CD
