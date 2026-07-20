@@ -20,14 +20,13 @@ export default function Avatar({
                 ? "large"
                 : "small";
 
-    const API_URL = import.meta.env.VITE_API_URL;
 
 
     if (user.avatar_url) {
         return (
             <div className={`avatar ${size}`}>
                 <img
-                    src={`${API_URL}${user.avatar_url}`}
+                    src={user.avatar_url}
                     alt={user.username}
                 />
             </div>

@@ -14,9 +14,13 @@ class Settings(BaseSettings):
     # Frontend
     FRONTEND_URL: str
 
-    # Uploads
-    UPLOAD_DIR: str = "uploads/avatars"
+    # Upload validation
     MAX_IMAGE_SIZE: int = 5 * 1024 * 1024  # 5 MB
+
+    # Cloudinary
+    CLOUDINARY_CLOUD_NAME: str
+    CLOUDINARY_API_KEY: str
+    CLOUDINARY_API_SECRET: str
 
     model_config = SettingsConfigDict(
         env_file=".env"
